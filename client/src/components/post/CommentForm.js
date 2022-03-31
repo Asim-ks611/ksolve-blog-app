@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { submitComment } from "../../services/services";
 
-const CommentsForm = ({ post }) => {
+const CommentsForm = ({ post,showSuccessMessage,setShowSuccessMessage }) => {
   const [error, setError] = useState(false);
-  const [localStorage, setLocalStorage] = useState(null);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [localStorage, setLocalStorage] = useState({
+    name: "",
+    email: "",
+  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,15 +16,15 @@ const CommentsForm = ({ post }) => {
 
   useEffect(() => {
     setLocalStorage(window.localStorage);
-    const initalFormData = {
+    const initialFormData = {
       name: window.localStorage.getItem("name"),
       email: window.localStorage.getItem("email"),
-      storeData:
-        window.localStorage.getItem("name") ||
-        window.localStorage.getItem("email"),
     };
-    setFormData(initalFormData);
-  }, []);
+    setFormData({...formData,
+      name:initialFormData.name,
+      email:initialFormData.email,
+    });
+  }, [showSuccessMessage]);
 
   const onInputChange = (e) => {
     const { target } = e;
@@ -95,40 +97,43 @@ const CommentsForm = ({ post }) => {
           className="p-4 outline-none w-full rounded-lg h-40 focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           name="comment"
           placeholder="Comment"
+          required={true}
         />
       </div>
       {/* -------NAME & EMAIL ------ */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         <input
           type="text"
-          value={formData?.name}
+          value={formData.name ? formData.name : ""}
           onChange={onInputChange}
           className="py-2 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           placeholder="Name"
           name="name"
+          required={true}
         />
         <input
           type="email"
-          value={formData?.email}
+          value={formData.email ? formData.email : ""}
           onChange={onInputChange}
           className="py-2 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           placeholder="Email"
           name="email"
+          required={true}
         />
       </div>
       <div className="grid grid-cols-1 gap-4 mb-4">
         <div>
           <input
-            checked={formData?.storeData}
+            checked={formData.storeData}
             onChange={onInputChange}
             type="checkbox"
             id="storeData"
             name="storeData"
-            value="true"
+            value={true}
+            className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
           />
-          <label className="text-gray-500 cursor-pointer" htmlFor="storeData">
-            {" "}
-            Save my name, email in this browser for the next time I comment.
+          <label className="ml-1 text-gray-500 cursor-pointer" htmlFor="storeData">
+            Save my name and email for next time I comment.
           </label>
         </div>
       </div>
@@ -145,7 +150,7 @@ const CommentsForm = ({ post }) => {
         </button>
         {showSuccessMessage && (
           <span className="text-xl float-right font-semibold mt-3 text-green-500">
-            Comment submitted for review
+            Comment Added
           </span>
         )}
       </div>

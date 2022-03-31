@@ -62,18 +62,6 @@ export const getPostDetail = async (slug) => {
 };
 
 ///// -------- COMMENT SERVICES ---------/////
-export const getComments = async (slug) => {
-  let comments = await fetch(`${URL}/comments/${slug}`, {
-    method: "GET",
-    mode: "cors",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  },
-  ).then((res) => res.json());
-  return comments;
-};
 
 export const submitComment = async (commentObj)=>{
    let submit = await fetch(`${URL}/comments`, {

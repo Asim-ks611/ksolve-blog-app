@@ -5,25 +5,36 @@ import AuthorSection from './AuthorSection';
 import CommentSection from "./CommentSection";
 import CommentsForm from './CommentForm';
 import PostSection from "./PostSection"
-import CategorySection from './CategorySection';
+import AdjacentPostSection from './AdjacentPostSection';
 
 
 
 const PostMain = () => {
   const [detailedPost,setDetailedPost] = useState({})
+  const [postId,setPostId] = useState("")
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   let location = useLocation()
   let slug =location?.pathname?.split('/')[2]
 
   useEffect(() => {
      getPostDetail(slug)
-    .then(result=>setDetailedPost(result))
-  }, [slug])
+    .then(result=>{
+      setDetailedPost(result)
+      setPostId(result?._id)
+    })
+  }, [slug,showSuccessMessage])
+
+
   return (
     <>
           <PostSection post={detailedPost}/>
           <AuthorSection author={detailedPost.author}/>
-          <CommentsForm post={detailedPost?._id}/>
-          <CommentSection comments={detailedPost?.comments}/>
+          {/* <AdjacentPostSection post={detailedPost}/> */}
+          <CommentsForm post={postId}
+          showSuccessMessage={showSuccessMessage}
+          setShowSuccessMessage={setShowSuccessMessage}
+          />
+          <CommentSection comments={detailedPost.comments}/>
     </>
   )
 }
