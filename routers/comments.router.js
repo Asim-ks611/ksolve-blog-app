@@ -4,6 +4,7 @@ const {getAllComments,addComment,updateComment,deleteComment} = require("./comme
 
 
 commentsRouter.get('/',getAllComments)
+commentsRouter.get('/:slug',getAllComments)
 commentsRouter.post('/',addComment)
 commentsRouter.put('/:id',updateComment)
 commentsRouter.delete('/:id',deleteComment)

@@ -35,18 +35,22 @@ const postSchema = mongoose.Schema({
     comments:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Comment",
-        required:true
     }],
     categories:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Category",
         required:true
     }],
-    authorId:{
+    author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Author",
         required:true
     },
+    createdAt:{
+        type:Date,
+        immutable:true,
+        default:()=>Date.now()
+    }, 
 })
 
 // Connects Author Schema to the "Author" collection of MongoDB 

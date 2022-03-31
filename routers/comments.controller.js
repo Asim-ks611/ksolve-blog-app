@@ -3,24 +3,39 @@ const Comment = require("../models/comment.model")
 
 
 //////////-------- GET ------//////////
-const  getAllComments = (req,res)=>{
-    console.log("getAllComments");
-    res.status(200).json({message:"getAllComments"})
+const  getAllComments =async  (req,res)=>{
+    let slug = req.params.slug
+    try {
+        let comment = await Comment.find({}).populate('post').where(`post:{slug:${slug}}`)
+
+    } catch (error) {
+        
+    }
 }
 
 
 //////////-------- ADD ------//////////
-const  addComment = (req,res)=>{
-    console.log("addComment");
+const  addComment = async (req,res)=>{
+    let {name,email,comment,post} = req.body
+    console.log(req.body);
+    try {
+        let cmnt = new Comment({
+            name,email,comment,post
+        })
+        await cmnt.save();
+        res.status(200).json({message:"Comment Added Successfully",success:true})
+    } catch (error) {
+        res.status(400).json({message:"The comment cannot be added",success:false,error:error.message})
+    }
 }
 
 //////////-------- UPDATE ------//////////
-const  updateComment = (req,res)=>{
+const  updateComment =async  (req,res)=>{
     console.log("updateComment");
 }
 
 //////////-------- DELETE ------//////////
-const  deleteComment = (req,res)=>{
+const  deleteComment =async  (req,res)=>{
     console.log("deleteComment");
 }
 

@@ -13,7 +13,6 @@ const commentSchema = mongoose.Schema({
         required:true,
         lowercase:true,
         trim:true,
-        unique:true,
     },
     comment:{
         type:String,
@@ -21,7 +20,7 @@ const commentSchema = mongoose.Schema({
         trim:true,
         minLength:1
     },
-    postId:{
+    post:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Post",
         required:true

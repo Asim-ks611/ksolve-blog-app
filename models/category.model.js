@@ -19,6 +19,11 @@ const categorySchema = mongoose.Schema({
         ref:"Post",
         required:true
     }],
+    createdAt:{
+        type:Date,
+        immutable:true,
+        default:()=>Date.now()
+    }, 
 
 })
 

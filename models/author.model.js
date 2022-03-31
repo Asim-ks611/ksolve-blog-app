@@ -27,6 +27,10 @@ const authorSchema = mongoose.Schema({
     bio:{
         type:String,
     },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
     posts:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Post",
